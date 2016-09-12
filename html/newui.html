@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no">
+    <meta charset="UTF-8">
+    <title>MindBank</title>
+    <!-- CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/form.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/icons.css" rel="stylesheet">
+    <link href="../css/generics.css" rel="stylesheet">
+    <link href="../css/index.css" rel="stylesheet">
+</head>
+<body id="skin-blur-blue">
+<div id="app">
+<router-view></router-view>
+</div>
+<script type="text/html" id="common-header">
+<header id="header" class="media">
+    <div class="media-body">
+        <div class="media" id="top-menu">
+            <div class="pull-left btn-group">
+                <a data-drawer="messages" class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">{{$t("Mind Sign")}}</a>
+                <ul class="dropdown-menu">
+                    <li><a @click="showModalMsgSign()">{{$t("Sign message")}}</a></li>
+                    <li><a @click="showModalMsgValite()">{{$t("Validate message")}}</a></li>
+                </ul>
+            </div>
+            <div class="pull-left btn-group">
+                <a data-drawer="messages" class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">{{$t("Language Settings")}}</a>
+                <ul class="dropdown-menu">
+                    <li><a href="javascript:void(0)" @click="changeLang('zh_CN')">中文简体</a></li>
+                    <li><a href="javascript:void(0)" @click="changeLang('zh_TW')">中文繁体</a></li>
+                    <li><a href="javascript:void(0)" @click="changeLang('en')">English</a></li>
+                </ul>
+            </div>
+            <div class="pull-right m-r-20">
+                {{$t("Current Block:")}}{{accountStore.latest_block.blockHeight}}
+            </div>
+        </div>
+    </div>
+</header>
+<div class="clearfix"></div>
+<modal-sign></modal-sign>
+<modal-send-address></modal-send-address>
+<modal-send-address-new></modal-send-address-new>
+<modal-recieve-address-qr></modal-recieve-address-qr>
+<modal-send-address-qr></modal-send-address-qr>
+</script>
+<script type="text/html" id="index-template">
+<common-header></common-header>
+<section id="main" class="main-page p-relative" role="main">
+    <aside id="sidebar">
+        <div class="side-widgets overflow">
+            <div class="text-center s-widget m-b-10 index-address-wrap" id="index-address-wrap">
+                <div id="my-primary-addres-qr-code"  v-el:canvas>
+                </div>
+                <h6 class="m-0">{{$t("Your Mind Bank Account Address")}}</h6>
+                <h6>{{address}}</h6>
+                <h6>{{$t("Share this with anyone and they can send you payments.")}}</h6>
+            </div>
+            <div class="s-widget m-b-10" id="index-balance-wrap">
+                <h2 class="tile-title">
+                     {{$t('Balances')}}
+                </h2>
+                <div class="table-responsive overflow">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td>{{$t("Mind Gene")}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{$t("Available")}}</td>
+                                <td>{{balance[0]}}</td>
+                            </tr>
+                             <tr>
+                                <td>{{$t("Unconfirmed")}}</td>
+                                <td>{{balance[1]}}</td>
+                            </tr>
+                             <tr>
+                                <td>{{$t("Locked")}}</td>
+                                <td>{{balance[2]}}</td>
+                            </tr>
+                             <tr>
+                                <td>{{$t("Total Balance")}}</td>
+                                <td>{{balance[3]}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="s-widget prize-outline m-b-25" id="index-award-wrap">
+                <h2 class="tile-title">
+                  {{$t("Award status")}}
+                </h2>
+                <div class="s-widget-body">
+                    <div class="side-border">
+                        <small>{{$t("Trust Interest Schedule this Century")}}</small>
+                        <div class="progress progress-small">
+                             <a href="javascript:void(0)" data-toggle="tooltip" title="" class="progress-bar tooltips progress-bar-success" v-bind:style="{width: currentPeriodUsedPercent+'%'}" data-original-title="{{currentPeriodUsedPercent}}%">
+                                  <span class="sr-only">{{currentPeriodUsedPercent}} Complete</span>
+                             </a>
+                        </div>
+                    </div>
+                    <div class="side-border">
+                        <small>{{$t("Total Trust Interest Schedule")}}</small>
+                        <div class="progress progress-small">
+                             <a href="javascript:void(0)" data-toggle="tooltip" title="" class="progress-bar tooltips progress-bar-success" v-bind:style="{width: allPeriodUsedPercent+'%'}" data-original-title="{{allPeriodUsedPercent}}%">
+                                  <span class="sr-only">{{allPeriodUsedPercent}} Complete</span>
+                             </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <sidemenu></sidemenu>
+    </aside>
+    <section id="content" class="container">
+        <div class="block-area deal-record" id="index-deal-record-wrap">
+            <div class ="tile">
+                <h2 class="tile-title">{{$t("Recent Transactions")}}</h2>
+                <div class="deal-record-content p-10">
+                    <div v-for="item in recentDealList" class="row deal-record-{{item['type']}}">
+                        <div class="col-md-2 md-icon">
+                            <span class="deal-record-icon"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <p>{{item['time']}}</p>
+                            <p>{{item['address']}}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="deal-record-amount">{{item['signal']}}{{item['amount']}} MG</div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+</script>
+<script type="text/html" id="record-template">
+<common-header></common-header>
+<section id="main" class="p-relative" role="main">
+    <aside id="sidebar">
+        <sidemenu></sidemenu>
+    </aside>
+    <section id="content" class="container">
+        <h4 class="page-title">{{$t("Transactions")}}</h4>
+        <div class="block-area">
+            <div class="row">
+                <div class="col-md-2 m-b-15">
+                    <select class="form-control input-sm" v-model="timeFilterParam">
+                        <option value='0'>{{$t("All")}}</option>
+                        <option value='1'>{{$t("Today")}}</option>
+                        <option value='2'>{{$t("This Week")}}</option>
+                        <option value='3'>{{$t("This Month")}}</option>
+                        <option value='4'>{{$t("Last Month")}}</option>
+                        <option value='5'>{{$t("This Year")}}</option>
+                    </select>
+                </div>
+                <div class="col-md-2 m-b-15">
+                    <select class="form-control input-sm" v-model="typeFilterParam">
+                        <option v-for="item in types" value="{{item}}">{{$t(item)}}</option>
+                    </select>
+                </div>
+                <div class="col-md-5 m-b-15">
+                    <input type="text" v-model="addressFilterParam" class="input-sm form-control" placeholder="{{$t('Input the address to search')}}">
+                </div>
+                <div class="col-md-3 m-b-15">
+                    <input type="text" v-model="amountFilterParam" class="input-sm form-control" placeholder="{{$t('Minimum Amount')}}">
+                </div>
+            </div>
+            
+            <table class="table tile">
+                <thead>
+                    <tr>
+                        <th>{{$t("Date")}}</th>
+                        <th>{{$t("Type")}}</th>
+                        <th>{{$t("Address")}}</th>
+                        <th>{{$t("Amount")}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in showList" @click="showDetail(item)">
+                        <td>{{item.time}}</td>
+                        <td>{{$t(item.category)}}</td>
+                        <td>{{item.address}}</td>
+                        <td>{{item.amount}}</td>
+                    </tr>
+                    <tr v-show="filterList.length==0">
+                        <td class="text-center">{{$t("Normally your transactions would be listed here but you have not made any yet.")}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="media text-center" v-show="pageCount>1">
+                <ul class="pagination">
+                    <li v-show="currentPage>0" @click="goPrePage()"><a href="javascript:void(0)"><i class="fa fa-angle-left"></i></a></li>
+                    <li v-for="page in pages" @click="goPage(page)" :class="{'active': currentPage==page}">
+                        <a href="javascript:void(0)">{{page + 1}}</a>
+                    </li>
+                    <li v-show="currentPage<pageCount-1" @click="goNextPage()"><a href="javascript:void(0)"><i class="fa fa-angle-right"></i></a></li>
+                </ul>
+             </div>
+        </div>
+    </section>
+</section>
+<div class="modal modal-address" v-show="isDetailShow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click="isDetailShow=0">
+                    &times;
+                </button>
+                <h4 class="modal-title">{{$t("Deal Detail")}}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{{$t("txid: ")}}{{currentTxId}}</p>
+            </div>
+        </div>
+    </div>
+</div
+</script>
+<script type="text/html" id="send-template">
+<common-header></common-header>
+<section id="main" class="p-relative" role="main">
+     <div id="main-notices-container">
+        <div id="notices" class="bubble bubble-top" style="display:none;"></div>
+    </div>
+    <aside id="sidebar">
+        <sidemenu></sidemenu>
+    </aside>
+    <section id="content" class="container">
+        <div class="block-area send-mg">
+            <div class="tile">
+                <h2 class="tile-title">{{$t("To")}}</h2>
+                <div class="listview send-mg-list">
+                    <div class="media" v-for="reciever in recievers">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control input-sm" placeholder="{{$t('Mind Bank Address')}}" v-model="reciever.id">
+                                </div>
+                                <div class="col-md-1">
+                                    <span class="icon-address" @click="showAddressModal(reciever)"></span>
+                                </div>
+                                <div class="col-md-1">
+                                    <span class="glyphicon glyphicon-remove" v-show="recievers.length>1" @click="removeReciever(reciever)"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-icon">
+                                        <input type="text" class="form-control input-sm" v-model="reciever.alias" placeholder="{{$t('Input a label for this address to add to your address book')}}">
+                                        <span class="add-on">
+                                            {{$t("label")}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-icon">
+                                        <input type="text" class="form-control input-sm" v-model="reciever.amount">
+                                        <span class="add-on">
+                                            MG
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="tile">
+                <h2 class="tile-title">{{$t("Commission Charge")}} </h2>
+                <div class="listview">
+                    <div class="media">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <div class="col-md-1">
+                                    <p>{{$t("Fee Rate")}}</p>
+                                    <p class="m-t-20">{{$t("Confirmation Time")}}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        {{feeRate}} MG／KB
+                                    </div>
+                                    <div class="m-t-20">
+                                        <input type="range" min="0" max="10" v-model="feeTime">
+                                    </div>
+                                    <div>
+                                        <div class="pull-left">{{$t("Common")}}</div>
+                                        <div class="pull-right">{{$t("Rapid")}}</div>
+                                    </div> 
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix m-t-10">
+                <div class="pull-left">
+                    <button class="btn btn-xs btn-alt" @click="clearAll">{{$t("Clear All")}}</button>
+                </div>
+                <div class="pull-right">
+                    <button class="btn"  @click="send()">{{$t("Send")}}</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+</script>
+<script type="text/html" id="recieve-template">
+<common-header></common-header>
+<section id="main" class="p-relative" role="main">
+    <aside id="sidebar">
+        <sidemenu></sidemenu>
+    </aside>
+    <section id="content" class="container">
+        <h4 class="page-title">{{$t("receive")}}</h4>
+        <div class="block-area address-list">
+            <p>{{$t("These are your MG address for collection")}}</p>
+            <table class="table tile">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{$t("label")}}</th>
+                        <th>{{$t("Address")}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="address in addresses">
+                        <td>
+                            <input class="icheckbox" type="checkbox" v-model="address.selected">
+                        </td>
+                        <td></td>
+                        <td>{{address.id}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="m-t-10">
+                <button class="btn btn-xs btn-alt" :class="{'btn-disabled': showOnOne}" @click="copyAddress()">{{$t("Copy Address")}}</button>
+                <button class="btn btn-xs btn-alt" :class="{'btn-disabled': showOnOne}" @click="showModalQrAddress()">{{$t("QR Code")}}</button>
+                <button class="btn btn-xs btn-alt" :class="{'btn-disabled': showOnOne}" @click="validateMsg()">{{$t("Sign for the information")}}</button>
+            </div>
+        </div>
+    </section>
+</section>
+</script>
+<script type="text/html" id="address-template">
+<common-header></common-header>
+<section id="main" class="p-relative" role="main">
+    <aside id="sidebar">
+        <sidemenu></sidemenu>
+    </aside>
+    <section id="content" class="container">
+        <h4 class="page-title">{{$t("Address Book")}}</h4>
+        <div class="block-area address-list">
+            <p>{{$t("This is the Mind Bank Address for sending payment")}}</p>
+            <table class="table tile">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{$t("label")}}</th>
+                        <th>{{$t("Address")}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in addresses">
+                        <td>
+                            <input class="icheckbox" type="checkbox" v-model="item.selected">
+                        </td>
+                        <td>{{item['alias']||'no alias'}}</td>
+                        <td>{{item['id']}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="m-t-10">
+                <button class="btn btn-xs btn-alt" @click="showModalNewAddress()">{{$t("New Address")}}</button>
+                <button class="btn btn-xs btn-alt" :class="{'btn-disabled': showOnOne}" @click="copyAddress()">{{$t("Copy Address")}}</button>
+                <button class="btn btn-xs btn-alt" :class="{'btn-disabled': showOnOne}" @click="showModalQrAddress()">{{$t("QR Code")}}</button>
+                <button class="btn btn-xs btn-alt" :class="{'btn-disabled': showOnOne}" @click="validateMsg()">{{$t("Validate message")}}</button>
+                <button class="btn btn-xs btn-alt" :class="{'btn-disabled': showOnMulti}" @click="remove()">{{$t("Delete")}}</button>
+            </div>
+            </div>
+        </div>
+    </section>
+</section>
+</script>
+<script type="text/html" id="award-template">
+<common-header></common-header>
+<section id="main" class="p-relative" role="main">
+    <div id="main-notices-container">
+        <div id="notices" class="bubble bubble-top" style="display:none;"></div>
+    </div>
+    <aside id="sidebar">
+        <sidemenu></sidemenu>
+    </aside>
+    <section id="content" class="container">
+        <h4 class="page-title">{{$t("Trust Interest")}}</h4>
+        <div class="block-area reward-info">
+            <div class="row">
+                <div class="col-md-9">
+                    <div  class="col-md-12">
+                        <div class="col-md-4 reward-info-process">
+                        <div class="circle-process">
+                            <div class="wrapper right">
+                                <div class="circle rightcircle" v-bind:style="{'-webkit-transform':'rotate('+currentPeriodUsedCircleRightRotate +'deg)'}"></div>
+                            </div>
+                            <div class="wrapper left">
+                                <div class="circle leftcircle" id="leftcircle" v-bind:style="{'-webkit-transform':'rotate('+currentPeriodUsedCircleLeftRotate +'deg)'}"></div>
+                            </div>
+                        </div>
+                        <div class="circle-process-text">
+                            <h3>{{$t("Snap save")}}</h3>
+                            <h3>{{currentPeriodUsedPercent}}%</h3>
+                        </div>
+                        </div>
+                        <div class="col-md-8 reward-info-quota">
+                            <h5>{{$t("Current stage")}}</h5>
+                            <h3>{{$t("Total Interest")}}{{currentPeriodTotal}} MG</h3>
+                            <h3>{{$t("Surplus Amount")}}{{currentPeriodRest}} MG</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-12 next-stage">
+                        <div class="col-md-6">{{$t("Highest Rate in next stage for hundred days")}} {{nextPeriodMaxRate}}%</div>
+                        <div class="col-md-6">{{$t("Total Amount in next stage")}}{{nextPeriodTotal}}  MG</div>
+                    </div>
+                </div>
+                <div class="col-md-3 reward-info-mine">
+                    <p>{{$t("My Total Amount")}}</p>
+                    <h3 class="m-b-20">{{balance[3]}}</h3>
+                    <p>{{$t("Available Balance")}}{{balance[0]}}MG</p>
+                    <p>{{$t("My Interest")}}{{myTotalInterest}}MG</p>
+                </div>
+            </div>
+        </div>
+        <div class="block-area reward-join">
+            <div class="row">
+                <div class="col-md-2">
+                    <p>{{$t("Choose MG lifetime")}}</p>
+                    <div class="btn-group col-md-6">
+                        <select class="form-control input-sm" v-model="deposittime">
+                            <option value="1024">1024</option>
+                            <option value="512">512</option>
+                            <option value="256">256</option>
+                            <option value="128">128</option>
+                            <option value="64">64</option>
+                            <option value="32">32</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <p>{{$t("Interest rate for hundred days")}}</p>
+                    <p>{{selectedRate}}%</p>
+                </div>
+                <div class="col-md-3">
+                    <p>{{$t("Input limit")}}</p>
+                    <p><input type="text" class="form-control input-sm" v-model="depositamount"></p>
+                </div>
+                <div class="col-md-2">
+                    <p>{{$t("Obtain the Interest Award")}}</p>
+                    <p>{{expectedInterest}}</p>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-sm" @click="save()">{{$t("Snap save now")}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="block-area awardData-list-box">
+            <h5>{{$t("Historic Records")}} </h5>
+            <div class="deposit-list">
+                <table class="table tile">
+                    <thead>
+                        <tr>
+                            <th>{{$t("Remaining MG lifetime")}}</th>
+                            <th>{{$t("Rate for hundred days")}}</th>
+                            <th>{{$t("Actual Input(MG)")}}</th>
+                            <th>{{$t("Obtain Award (MG)")}}</th>
+                            <th>{{$t("Status")}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for=" item in recordList">
+                            <td>{{item.timeleft}}</td>
+                            <td>{{item.intereaterate}}%</td>
+                            <td>{{item.investment}}</td>
+                            <td>{{item.payback}}</td>
+                            <td>{{$t(item.status)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</section>
+</script>
+<script type="text/html" id="donate-template">
+<common-header></common-header>
+<section id="main" class="p-relative" role="main">
+    <div id="main-notices-container">
+        <div id="notices" class="bubble bubble-top" style="display:none;"></div>
+    </div>
+    <aside id="sidebar">
+        <sidemenu></sidemenu>
+    </aside>
+    <section id="content" class="container donate-container">
+        <h4 class="page-title">{{$t("Public Benefit")}}</h4>
+        <div class="block-area donate-content">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">{{$t("Donation Amount")}}</label>
+                    <div class="col-md-8">
+                        <p><input type="text" class="form-control input-sm" v-model="donateAmount" /> MG</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">{{$t("Institutional choice")}}</label>
+                    <div class="col-md-8">
+                        <p class="donate-choose">{{$t("default")}}<span class="btn-tip" @click="showDonateChooseTipModal()"></span></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputName4" class="col-md-4 control-label">{{$t("Autograph")}}</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control input-sm" placeholder="{{$t('Please input your name')}}" v-model="donateSign" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputName4" class="col-md-4 control-label">{{$t("Leave a message")}}</label>
+                    <div class="col-md-8">
+                        <textarea class="form-control overflow" rows="3" placeholder="{{$t('Please input the message which will stay in Block chain forever')}}" v-model="donateMsg"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">&nbsp;</label>
+                    <div class="col-md-8">
+                        <p>{{$t("Thanks for your donation to the global public welfare")}}</p>
+                        <p>{{$t("Let us share the fortune of love and wisdom in transparent, fair and balance block chain ecology")}}</p>
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <div class="col-md-12 text-center">
+                        <button v-if="blocksLeft>0" class="btn btn-lg m-t-10" @click="showDonateTipModal()">{{$t("Left")}}:{{blocksLeft}}{{$t("Blocks")}}({{$t("About")}}{{daysLeft}}{{$t("days")}})</button>
+                        <button v-else class="btn btn-lg m-t-10" @click="showDonateConfirmModal()">{{$t("Global Public Benefit")}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</section>
+<div class="modal donate-modal" v-show="donateConfirmModalShow">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click="hideDonateChooseTipModal()">
+                    &times;
+                </button>
+                <h4 class="modal-title">{{$t("Donation Confirm")}}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{{$t("Donation Amount")}}:{{donateAmount}} MG</p>
+                <p>{{$t("Sign")}}:{{donateSign}}</p>
+                <p>{{$t("Leave a message")}}:{{donateMsg}}</p>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-sm" @click="donate()">{{$t("Confirm")}}</button>
+                    <button type="button" class="btn btn-sm" @click="hideDonateConfirmModal()">{{$t("Cancel")}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" v-show="donateTipModalShow">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click="hideDonateTipModal()">
+                    &times;
+                </button>
+                <h4 class="modal-title">{{$t("Donation Confirm")}}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{{$t("Donation not begin")}}</p>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-sm" @click="hideDonateTipModal()">{{$t("Confirm")}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" v-show="donateChooseTipModalShow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click="hideDonateChooseTipModal()">
+                    &times;
+                </button>
+                <h4 class="modal-title">{{$t("Introduction")}}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{{$t("Donation Rule")}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+<script type="text/html" id="vote-template">
+<common-header></common-header>
+<section id="main" class="p-relative" role="main">
+    <div id="main-notices-container">
+        <div id="notices" class="bubble bubble-top" style="display:none;"></div>
+    </div>
+    <aside id="sidebar">
+        <sidemenu></sidemenu>
+    </aside>
+    <section id="content" class="container vote-container">
+        <h4 class="page-title">{{$t("The public vote")}}<span class="btn-tip" @click="showVoteTipModal()"></span></h4>   
+        <div class="block-area">
+            <div class="tile notice-tip">
+                <span class="btn-gonotice" v-link="{path: '/notice'}">{{$t("Awards Notice")}}</span>
+                <h4>{{$t("Join the vote has a chance to get the award")}}</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{$t("Reward address number")}} 100
+                    </div>
+                    <div class="col-md-6">
+                        {{$t("Award Amount")}}{{awardAmount}}MG/{{$t("Address")}}
+                    </div>
+                </div>
+                <div class="side-border">
+                        <h5>{{$t("The progress of this century")}}</h5>
+                        <div class="progress progress-small">
+                             <a href="javascript:void(0)" data-toggle="tooltip" title="" class="progress-bar tooltips progress-bar-success" v-bind:style="{width: centuryProgress + '%'}">
+                                  <span class="sr-only">{{centuryProgress}} Complete</span>
+                             </a>
+                        </div>
+                    </div>
+            </div>
+            <div class="tile vote-list">
+                <h4 class="tile-title">
+                    <a href="javascript:void(0)" v-link="{ path:'/vote_result'}">{{$t("Vote Result")}}</a>
+                    {{$t("Prompted Charity Organization list")}}
+                </h4>
+                <div class="vote-table-nav" @click="goItem">
+                    <ul>
+                        <li>A</li>
+                        <li>B</li>
+                        <li>C</li>
+                        <li>D</li>
+                        <li>E</li>
+                        <li>F</li>
+                        <li>G</li>
+                        <li>H</li>
+                        <li>I</li>
+                        <li>J</li>
+                        <li>K</li>
+                        <li>L</li>
+                        <li>M</li>
+                        <li>N</li>
+                        <li>O</li>
+                        <li>P</li>
+                        <li>Q</li>
+                        <li>R</li>
+                        <li>S</li>
+                        <li>T</li>
+                        <li>U</li>
+                        <li>V</li>
+                        <li>W</li>
+                        <li>X</li>
+                        <li>Y</li>
+                        <li>Z</li>
+                    </ul>
+                </div>
+                <div class="vote-table-head">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>{{$t("Organization Name")}}</th>
+                                <th>{{$t("MG Address")}}</th>
+                                <th>{{$t("Operation")}}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="vote-table-wrap">
+                    <table class="table">
+                        <tbody v-for="org in orgList">
+                            <tr v-for="item in org"  :id="item.nav">
+                                <td>{{item.name}}</td>
+                                <td>{{item.address}}</td>
+                                <td>
+                                    <a href="javascript:void(0)" class="btn btn-sm" @click="showVoteModal(item)">{{$t("Vote")}}</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>   
+    </section>
+</section>
+<div class="modal vote-list-modal" v-show="voteModalShow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click="hideVoteModal()">
+                    &times;
+                </button>
+                <h4 class="modal-title">{{$t("Available Revenue List")}}</h4>
+            </div>
+            <div class="modal-body">
+                <p v-if="uxtos.length == 0">{{$t("No Available Revenue")}}</p>
+                <table class="table" v-else>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" class="icheckbox" v-model="selectAll" /></th>
+                            <th>{{$t("Address")}}</th>
+                            <th>MG {{$t("Amount")}}</th>
+                            <th>{{$t("Blocks")}}</th>
+                            <th>{{$t("Votes")}}</th>
+                        </tr>
+                    </thead>
+                    <tbody v-else>
+                        <tr v-for="uxto in uxtos">
+                            <td><input type="checkbox" class="icheckbox" v-model="uxto.voteSelected" /></td>
+                            <td>{{uxto.address}}</td>
+                            <td>{{uxto.amount}}MG</td>
+                            <td>{{uxto.blocks}}({{$t("Approximately")}}{{uxto.days}}{{$t("days")}})</td>
+                            <td>{{uxto.voteNumber}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-sm" :class="{'btn-disabled': showOnMulti}" @click="vote()">{{$t("Confirm Vote")}}</button>
+                    <button type="button" class="btn btn-sm" @click="hideVoteModal()">{{$t("Cancel")}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal vote-list-modal" v-show="voteModalTipShow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click="hideVoteTipModal()">
+                    &times;
+                </button>
+                <h4 class="modal-title">{{$t("Introduction")}}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{{$t("Vote Tip One")}}</p>
+                <p>{{$t("Vote Tip Two")}}</p>
+                <p>{{$t("Vote Tip Three")}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+<script type="text/html" id="voteresult-template">
+<common-header></common-header>
+<section id="main" class="p-relative" role="main">
+    <aside id="sidebar">
+        <sidemenu></sidemenu>
+    </aside>
+    <section id="content" class="container">
+        <h4 class="page-title">{{$t("Vote Result")}}</h4>
+        <div class="block-area vote-result-time">
+            <table class="table tile">
+                <thead>
+                    <tr>
+                        <th>{{$t("Ranking")}}</th>
+                        <th>{{$t("Organization Name")}}</th>
+                        <th>{{$t("Proportional Voting")}}</th>
+                        <th>{{$t("Votes")}}</th>
+                    </tr>
+                </thead>
+                <tbody v-if="list.length > 0">
+                    <tr v-for="(index, item) in list" track-by="$index">
+                        <td>{{index+1}}</td>
+                        <td>{{item.org}}</td>
+                        <td>{{item.percent}}%</td>
+                        <td>{{item.votes}}</td>
+                    </tr>
+                </tbody>
+                <tbody v-else>
+                    <tr>
+                        <td>{{$t("Have no vote result")}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
+</script>
+<script type="text/html" id="notice-template">
+<common-header></common-header>
+<section id="main" class="p-relative" role="main">
+    <aside id="sidebar">
+        <sidemenu></sidemenu>
+    </aside>
+    <section id="content" class="container">
+        <h4 class="page-title">{{$t("The winning announcement")}}</h4>
+        <div class="block-area">
+            <div class="tile notice-tip">
+                <h4>{{$t("The public vote Lottery century awards announcement")}}</h4>
+                <div class="row">
+                    <div class="col-md-5">
+                        {{$t("The winning century:")}}{{$t("No.")}}<span v-if="century>0">{{century}}</span><span v-else>1</span>{{$t("Century")}}
+                    </div>
+                    <div class="col-md-5">
+                        {{$t("The winning amount of this century:")}}{{awardAmount}}MG
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control input-sm" v-model="selectCentury">
+                            <option value="0">{{$t("Historic Records")}}</option>
+                            <option v-for="n in currentCentury" value="{{n+1}}">{{$t("No.")}}{{n+1}}{{$t("Century")}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="tile notice-list">
+                <h2 class="tile-title">{{$t("Winning mind bank address")}}</h2>
+                <div class="notice-list-norecord" v-if="awardAddresses.length==0">
+                    <h3>{{$t("Voting is not over of the century, no announcement")}}</h3>
+                    <p>{{$t("Before the vote cut-off")}}{{blocksByEnd}}{{$t("Blocks")}}({{$t("Approximately")}}{{daysByEnd}}{{$t("days")}})</p>
+                </div>
+                <div class="notice-list-record" v-else>
+                    <ul class="clearfix">
+                        <li v-for="(index, item) in awardAddresses" track-by="$index">{{item}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+</script>
+<script type="text/html" id="pos-template">
+<common-header></common-header>
+<section id="main" class="p-relative" role="main">
+    <div id="main-notices-container">
+        <div id="notices" class="bubble bubble-top" style="display:none;"></div>
+    </div>
+    <aside id="sidebar">
+        <sidemenu></sidemenu>
+    </aside>
+    <section id="content" class="container">
+        <h4 class="page-title">{{$t("Coin age rewards")}}</h4>
+        <div class="block-area">   
+            <div class="row tile pos-row">
+                <div class="col-md-6">
+                    {{$t("Interest Of This Century")}}:&nbsp;&nbsp;&nbsp;&nbsp;{{currentPosInterestRate}}%
+                </div>
+                <div class="col-md-6">
+                    {{$t("Difficulty")}}:&nbsp;&nbsp;&nbsp;&nbsp;{{currentPosDifficulty}}
+                </div>
+            </div>   
+            <div class="pos-tip">{{$t("You Can Use It To Vote")}} 100,000 MG {{$t("Century Awards")}}&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" @click="showVoteConfirmModal()">{{$t("Go To Vote")}}</a></div>
+            <div class="pos-table">
+                <table class="table tile">
+                    <thead>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>{{$t("Time")}}</th>
+                            <th>{{$t("Address")}}</th>
+                            <th>{{$t("Amount")}}(MG)</th>
+                            <th>{{$t("Blocks")}}</th>
+                            <th>{{$t("Expected Interest")}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="uxto in uxtos" :class="uxto.status">
+                            <td>
+                                <input class="icheckbox" type="checkbox" v-model="uxto.posSelected">
+                            </td>
+                            <td>{{uxto.time}}</td>
+                            <td>{{uxto.address}}</td>
+                            <td>{{uxto.amount}}MG</td>
+                            <td>{{uxto.blocks}}({{$t("Approximately")}}{{uxto.days}}{{$t("days")}})</td>
+                            <td>{{uxto.interest}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pos-btn-wrap text-center m-t-10">
+                <button v-if="accountStore.mineStatus" class="btn btn-lg" @click="stopGeneratePos()">{{$t("Drawing")}}</button>
+                <button v-else class="btn btn-lg" @click="showPosConfirmModal()">{{$t("Draw Interest")}}</button>
+            </div>
+        </div>
+    </section>
+</section>
+<div class="modal" v-show="voteConfirmModalShow">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click="hideVoteConfirmModal()">
+                    &times;
+                </button>
+                <h4 class="modal-title">{{$t("Vote Confirm")}}</h4>
+            </div>
+            <div class="modal-body">
+                <h4>{{$t("Whether to confirm to vote")}}?</h4>
+                <p>{{$t("The deal won’t gain the coin age award after joining the public vote lottery, and the vote can’t be canceled.")}}</p>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-sm" v-link="{path: '/vote'}">{{$t("Confirm")}}</button>
+                    <button type="button" class="btn btn-sm" @click="hideVoteConfirmModal()">{{$t("Cancel")}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" v-show="posConfirmModalShow">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click="hidePosConfirmModal()">
+                    &times;
+                </button>
+                <h4 class="modal-title">{{$t("Draw Interest Confirm")}}</h4>
+            </div>
+            <div class="modal-body">
+                <h4>{{$t("Whether to confirm to gain the interest")}}?</h4>
+                <p>{{$t("The deal can’t join the public vote lottery after getting the interest.")}}</p>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-sm" @click="startGeneratePos()">{{$t("Confirm")}}</button>
+                    <button type="button" class="btn btn-sm" @click="hidePosConfirmModal()">{{$t("Cancel")}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+<script type="text/html" id="common-side-menu">
+<ul class="list-unstyled side-menu">
+    <li>
+        <a class="sa-side-home" v-link="{ path: '/' }">
+            <span class="menu-item">{{$t("Overview")}}</span>
+        </a>
+    </li>
+    <li>
+        <a class="sa-side-record" v-link="{ path: '/record' }">
+            <span class="menu-item">{{$t("Trade Record")}}</span>
+        </a>
+    </li>
+    <li>
+        <a class="sa-side-send" v-link="{ path: '/send' }">
+            <span class="menu-item">{{$t("Send")}}</span>
+        </a>
+    </li>
+    <li>
+        <a class="sa-side-recieve" v-link="{ path: '/recieve' }">
+            <span class="menu-item">{{$t("receive")}}</span>
+        </a>
+    </li>
+    <li>
+        <a class="sa-side-address" v-link="{ path: '/address' }">
+            <span class="menu-item">{{$t("Address")}}</span>
+        </a>
+    </li>
+    <li>
+        <a class="sa-side-award" v-link="{ path: '/award' }">
+            <span class="menu-item">{{$t("Trust Interest")}}</span>
+        </a>
+    </li>
+    <li class="dropdown">
+        <a class="sa-side-vote">
+            
+        </a>
+        <ul class="list-unstyled menu-item">
+            <li><a href="javascript:void(0)" v-link="{path: '/vote'}">{{$t("Public Vote")}}</a></li>
+            <li><a href="javascript:void(0)" v-link="{path: '/notice'}">{{$t("Announcement")}}</a></li>
+            <li><a href="javascript:void(0)" v-link="{path: '/vote_result'}">{{$t("Vote Result")}}</a></li>
+            <li><a href="javascript:void(0)" v-link="{path: '/donate'}">{{$t("Donation")}}</a></li>
+        </ul>
+    </li>
+</ul>
+</script>
+<script type="text/html" id="common-modal-sign">
+<div class="modal in sign-modal" v-show="store.signModalShow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click="hide()">×</button>
+                <h4 class="modal-title">{{$t("Signature-sign for information/Signature Information Verification")}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="tab-container tile">
+                    <ul class="nav tab nav-tabs">
+                        <li :class="{active: store.signModalShow==1}" @click="goSign()">
+                            <a href="javascript:void(0)">{{$t("Signature Information")}}</a>
+                        </li>
+                        <li :class="{active: store.signModalShow==2}" @click="goValidate()">
+                            <a href="javascript:void(0)">{{$t("Verification Information")}}</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" v-show="store.signModalShow==1">
+                            <p>{{$t("You may sign the information by your address to prove that you are the owner of the address")}}</p>
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="text" value="{{accountStore.accountID}}" class="form-control input-sm" placeholder="{{$t('Please input an MG address, like MmqeEGhVKCxEQ7HbLpJJNy8XdMkmuY7KnP')}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <textarea v-model="signmsg" class="form-control overflow" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <p>{{$t('Signname')}}</p>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control input-sm" readonly="" value="{{signresult}}" placeholder="{{$t('Click Sign Message to generate the signature')}}">
+                                        <span class="icon"></span>
+                                    </div>
+                                </div>
+                            </form>
+                            <div>
+                                <button type="button" class="btn btn-sm m-r-10" @click="getSignResult()">{{$t("Signature Information")}}</button>
+                                <button type="button" class="btn btn-sm" @click="clearsign()">{{$t("Clear All")}}</button>
+                                <span class="m-l-10">{{signerr}}</span>
+                            </div>
+                        </div>
+                        <div class="tab-pane" v-show="store.signModalShow==2">
+                            <p>{{$t("Input signature address, information")}}</p>
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <input type="text" v-model="store.signModalValiteAddress" class="form-control input-sm" placeholder="{{$t('Please input an MG address, like MmqeEGhVKCxEQ7HbLpJJNy8XdMkmuY7KnP')}}"></div>
+                                    <div class="col-md-2">
+                                        <span class="icon-address" @click="showModalSendAddress()"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <textarea v-model="validatemsg" class="form-control overflow" rows="3" v-model="validatemsg"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control input-sm" placeholder="{{$t('Input the Signature')}}" v-model="validatesign">
+                                        <span class="icon"></span>
+                                    </div>
+                                </div>
+                            </form>
+                            <div>
+                                <button type="button" class="btn btn-sm m-r-10" @click="validateSign()">{{$t("Verification Information")}}</button>
+                                <button type="button" class="btn btn-sm" @click="clearvalidate()">{{$t("Clear All")}}</button>
+                                <span class="m-l-10">{{validateResult}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+<script type="text/html" id="common-modal-recieve-address">
+<div class="modal modal-address" v-show="store.recieveAddressModalShow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click="store.recieveAddressModalShow=0">
+                    &times;
+                </button>
+                <h4 class="modal-title">{{$t("")}}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{{$t("These are your MG address for collection")}}</p>
+                <div class="table-responsive overflow">
+                    <table class="table table-hover tile">
+                        <thead>
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th>{{$t("label")}}</th>
+                                <th>{{$t("Address")}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in addresses">
+                                <td><input type="checkbox" class="icheckbox" v-model="item.selected" ></td>
+                                <td>{{item['label']}}</td>
+                                <td>{{item['address']}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-11">
+                    <button type="button" class="btn btn-sm" @click="showModalNewAddress()">{{$t("New Address")}}</button>
+                    <button class="btn btn-xs btn-alt" :class="{'btn-disabled': showOnOne}" @click="copyAddress()">{{$t("Copy Address")}}</button>
+                    <button class="btn btn-xs btn-alt" :class="{'btn-disabled': showOnOne}" @click="showModalQrAddress()">{{$t("QR Code")}}</button>
+                    <button class="btn btn-xs btn-alt" :class="{'btn-disabled': showOnMulti}">{{$t("Delete")}}</button>
+                </div>
+                <div class="col-md-1">
+                    <button type="button" id="select-own-address" class="btn btn-sm" :class="{'btn-disabled': showOnOne}">{{$t("Confirm")}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div
+</script>
+<script type="text/html" id="common-modal-send-address">
+<div class="modal" v-show="store.sendAddressModalShow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click="hide()">
+                    &times;
+                </button>
+                <h4 class="modal-title">{{$t("Choose Payment Address")}}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{{$t("This is the Mind Bank Address for sending payment")}}</p>
+                <div class="table-responsive overflow">
+                    <table class="table table-hover tile">
+                        <thead>
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th>{{$t("label")}}</th>
+                                <th>{{$t("Address")}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in addresses">
+                                <td><input type="checkbox" class="icheckbox" v-model="item.selected" ></td>
+                                <td>{{item['alias']}}</td>
+                                <td>{{item['id']}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-10">
+                    <button type="button" class="btn btn-sm" @click="showModalNewAddress()">{{$t("New Address")}}</button>
+                    <button class="btn btn-xs btn-alt" :class="{'btn-disabled': showOnOne}" @click="copyAddress()">{{$t("Copy Address")}}</button>
+                    <button class="btn btn-xs btn-alt" :class="{'btn-disabled': showOnOne}" @click="showModalQrAddress()">{{$t("QR Code")}}</button>
+                    <button class="btn btn-xs btn-alt" :class="{'btn-disabled': showOnMulti}" @click="remove()">{{$t("Delete")}}</button>
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-sm" :class="{'btn-disabled': showOnOne}" @click="confirm()">{{$t("Confirm")}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div
+</script>
+<script type="text/html" id="recieve-modal-new-address">
+<div class="modal" v-show="store.newRecieveAddressModalShow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click="store.newRecieveAddressModalShow=false">
+                    &times;
+                </button>
+                <h4 class="modal-title">{{$t("New Recieve Address")}}</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="inputName1" class="col-md-2 control-label">{{$t("label")}}</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control input-sm" id="inputName1" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName1" class="col-md-2 control-label">{{$t("Address")}}</label>
+                        <div class="col-md-10">
+                            <input type="text" disabled="disabled" class="form-control input-sm" id="inputName1" placeholder="">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-sm">{{$t("Confirm")}}</button>
+                    <button type="button" class="btn btn-sm" @click="store.newRecieveAddressModalShow=false">{{$t("Cancel")}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div
+</script>
+<script type="text/html" id="recieve-modal-qr-address">
+<div class="modal" v-show="store.qrRecieveAddressModalShow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click="store.qrRecieveAddressModalShow=false">
+                    &times;
+                </button>
+                <h4 class="modal-title">{{$t("QR Code")}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row text-center" v-el:canvas>
+                    
+                </div>
+                <textarea class="form-control overflow" rows="3" readonly v-model="link"></textarea>
+                <form class="form-horizontal" role="form">
+                    <div class="checkbox m-b-5">
+                        <label>
+                            <input class="icheckbox m-r-5" type="checkbox" v-model="isPay" >{{$t("Payment Request")}}
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName1" class="col-md-2 control-label">{{$t("Amount")}}</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control input-sm" v-model="amount" :readonly="!isPay">
+                        </div>
+                        <div class="col-md-1"><span class="mg-unit">MG</span></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName1" class="col-md-2 control-label">{{$t("label")}}</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control input-sm" v-model="store.qrLabel">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">{{$t("Message:")}}</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control input-sm" v-model="msg">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+<script type="text/html" id="send-modal-new-address">
+<div class="modal" v-show="store.newSendAddressModalShow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click=hide()>
+                    &times;
+                </button>
+                <h4 class="modal-title">{{$t("New Send Address")}}</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="inputName1" class="col-md-2 control-label">{{$t("label")}}</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control input-sm" v-model="newAddress['alias']">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName1" class="col-md-2 control-label">{{$t("Address")}}</label>
+                        <div class="col-md-10">
+                            <p><input type="text" class="form-control input-sm" v-model="newAddress['id']"></p>
+                            <p class="tip-error">{{newAddress['error']}}</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-sm" @click=save()>{{$t("Confirm")}}</button>
+                    <button type="button" class="btn btn-sm" @click=hide()>{{$t("Cancel")}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div
+</script>
+<script type="text/html" id="send-modal-qr-address">
+<div class="modal" v-show="store.qrSendAddressModalShow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" @click="store.qrSendAddressModalShow=0">
+                    &times;
+                </button>
+                <h4 class="modal-title">{{$t("QR Code")}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row text-center" v-el:canvas>
+                    
+                </div>
+                <textarea class="form-control overflow" rows="3" readonly v-model="link"></textarea>
+                <form class="form-horizontal" role="form">
+                    <div class="form-group m-t-10">
+                        <label for="inputName1" class="col-md-2 control-label">{{$t("label")}}</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control input-sm" v-model="store.qrLabel">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">{{$t("Message:")}}</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control input-sm" v-model="msg">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div
+</script>
+<!-- jQuery -->
+<script src="../js/jquery.min.js"></script> <!-- jQuery Library -->
+<script src="../js/jquery.qrcode.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/base64.js"></script>
+<script src="../js/coin-api.js"></script>
+<script src="../js/translate.js"></script>
+<script src="../js/shared.js"></script>
+
+<script src="../js/vue.js"></script>
+<script src="../js/vue-router.js"></script>
+<script src="../js/vue-i18n.js"></script>
+<script src="../js/org-list.js"></script>
+<script type="text/javascript">
+var store = {
+    signModalShow: 0,
+    signModalSignAddress: '',
+    signModalValiteAddress: '',
+    recieveAddressModalShow: 0,
+    recieveAddressSelected: '',
+    sendAddressModalShow: 0,
+    sendAddressSelected: '',
+    newRecieveAddressModalShow: 0,
+    newSendAddressModalShow: 0,
+    qrRecieveAddressModalShow: false,
+    qrSendAddressModalShow: 0,
+    indexAwardNoticeModalShow: 0,
+    qrAddress: '',
+    qrLabel: '',
+    selectAddressCallback: function(a){
+        console.log(a);
+    }
+};
+var accountStore = {
+    accountID: ''
+     ,IDs: []
+    ,balance:[] // balance
+    ,txs:[] //all transaction
+    ,latest_block:{}
+    ,tx_page:0
+    ,uxtos: []
+    ,mineStatus: false
+    ,recentBlocks: []
+};
+var addressStore = {
+    paymentAddresses: []
+};
+</script>
+
+
+<script src="../js/common.js"></script>
+<script src="../js/page/index.js"></script>
+<script src="../js/page/record.js"></script>
+<script src="../js/page/recieve.js"></script>
+<script src="../js/page/send.js"></script>
+<script src="../js/page/address.js"></script>
+<script src="../js/page/award.js"></script>
+<script src="../js/page/donate.js"></script>
+<script src="../js/page/notice.js"></script>
+<script src="../js/page/vote.js"></script>
+<script src="../js/page/voteresult.js"></script>
+<!--入口js-->
+<script src="../js/main.js"></script>
+</body>
+</html>

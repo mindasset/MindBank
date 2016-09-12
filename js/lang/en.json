@@ -1,0 +1,451 @@
+{
+    "New": "New",
+    "MindAsset": "MindAsset",
+    "Current Block:": "Current Block:",
+    "Loading...": "Loading...",
+    "+New": "+New",
+    "Alias:": "Alias:",
+    "Alias": "Alias",
+    "Icon:": "Icon:",
+    "Icon": "Icon",
+    "Intro:": "Intro:",
+    "Intro": "Intro",
+    "Lock time:": "Lock time:",
+    "Lock Value needed:": "Lock Value needed:",
+    "Value to be locked:": "Value to be locked:",
+    "Cancel": "Cancel",
+    "days": "days",
+    " days": " days",
+    "All": "All",
+    "Edit": "Edit",
+    "Add New Contact": "Add New Contact",
+    "Add New": "Add New",
+    "Edit Contact": "Edit Contact",
+    "Please set attributes for the following contact:": "Please set attributes for the following contact:",
+    "Set Alias": "Set Alias",
+    "Category:": "Category:",
+    "no category": "no category",
+    "Close Window": "Close Window",
+    "Contacts": "Contacts",
+    "Send": "Send",
+    "send": "send",
+    "Start Mining": "Start Mining",
+    "Solo": "Solo",
+    "Mode": "Mode",
+    "Receiving Account ID": "Receiving Account ID",
+    "Using CPU kernels": "Using CPU kernels",
+    "Hash Rate": "Hash Rate",
+    "Network Hash Rate": "Network Hash Rate",
+    "Difficulty": "Difficulty",
+    "Estimated Revenue": "Estimated Revenue",
+    "Estimated Revenue Interval": "Estimated Revenue Interval",
+    "Connected to p2p network": "Connected to p2p network",
+    "WebPage Settings": "WebPage Settings",
+    "Service Settings": "Service Settings",
+    "Language Settings": "Language Settings",
+    "Cache Settings": "Cache Settings",
+    "MindAsset Settings": "MindAsset Settings",
+    "Settings": "Settings",
+    "Simple": "Simple",
+    "Package": "Package",
+    "test": "test",
+    "Unit:": "Unit:",
+    "Price:": "Price:",
+    "Price": "Price",
+    "Recipient Account ID:": "Recipient Account ID:",
+    "Recipient": "Recipient",
+    "submit": "submit",
+    "Close": "Close",
+    "MindAsset Tools": "MindAsset Tools",
+    "Tools": "Tools",
+    "Sign Message": "Sign Message",
+    "Verify Message": "Verify Message",
+    "Install Packages": "Install Packages",
+    "Show Peers": "Show Peers",
+    "Add Peers": "Add Peers",
+    "p2sh": "p2sh",
+    "Current ID:": "Current ID:",
+    "Message to Sign:": "Message to Sign:",
+    "Signature:": "Signature:",
+    "Sign": "Sign",
+    "ID:": "ID:",
+    "Clear": "Clear",
+    "Until": "Until",
+    "Link": "Link",
+    "Fee Rate": "Fee Rate",
+    "Estimated fee:": "Estimated fee:",
+    "Suggested rate:": "Suggested rate:",
+    "Min rate:": "Min rate:",
+    "To": "To",
+    "Confirm sending": "Confirm sending",
+    "Tag": "Tag",
+    "Overview": "Overview",
+    "Transactions": "Transactions",
+    "Address Book": "Address Book",
+    "Balances": "Balances",
+    "Balance: ": "Balance: ",
+    "Available": "Available",
+    "Unconfirmed": "Unconfirmed",
+    "Locked": "Locked",
+    "Total Balance": "Total Balance",
+    "This is your MindAsset account ID:": "This is your MindAsset account ID:",
+    "Share this with anyone and they can send you payments.": "Share this with anyone and they can send you payments.",
+    "Normally your transactions would be listed here but you have not made any yet.": "Normally your transactions would be listed here but you have not made any yet.",
+    "Date": "Date",
+    "Type": "Type",
+    "To/From": "To/From",
+    "Amount": "Amount",
+    "To:": "To:",
+    "Enter The MindAsset Account ID of the Recipient": "Enter The MindAsset Account ID of the Recipient",
+    "Amount:": "Amount:",
+    "Enter The Amount of MindAsset to send": "Enter The Amount of MindAsset to send",
+    "Message:": "Message:",
+    "Please leave message here to recepient.": "Please leave message here to recepient.",
+    "Send Payment": "Send Payment",
+    "Tx Detail": "Tx Detail",
+    "Override": "Override",
+    "MindAsset Wallet": "MindAsset Wallet",
+    "ID already in contact list": "ID already in contact list",
+    "ID is not valid": "ID is not valid",
+    "Message oversize.": "Message oversize.",
+    "Recent Revenues": "Recent Revenues",
+    "Not Connected": "Not Connected",
+    "Stop Mining": "Stop Mining",
+    "Mining  Mind Assets...": "Mining  Mind Assets...",
+    "day": "day",
+    "Mining started": "Mining started",
+    "MindAsset Miner": "MindAsset Miner",
+    "Miner": "Miner",
+    "Recent Transactions": "Recent Transactions",
+    "Publishing content": "Publishing content",
+    "Your payment is successfully sent": "Your payment is successfully sent",
+    "Change": "Change",
+    "Delete": "Delete",
+    "Add": "Add",
+    "Action": "Action",
+    "empty id.": "empty id.",
+    "duplicate id.": "duplicate id.",
+    "duplicate alias.": "duplicate alias.",
+    "Address added": "Address added",
+    "Address changed": "Address changed",
+    "minted": "minted",
+    "toSelf": "toSelf",
+    "receive": "receive",
+    "Previous": "Previous",
+    "Next": "Next",
+    "value is not number": "value is not number",
+    "value is too small": "value is too small",
+    "Application": "Application",
+    "default": "default",
+    "Service": "Service",
+    "Status": "Status",
+    "Language": "Language",
+    "Time": "Time",
+    "Introductions": "Introductions",
+    "expired": "expired",
+    "Verify Signature Passed": "Verify Signature Passed",
+    "Verify Signature failed": "Verify Signature failed",
+    "Input peer info to add": "Input peer info to add",
+    "Package Name": "Package Name",
+    "Size": "Size",
+    "Install": "Install",
+    "Address": "Address",
+    "seconds": "seconds",
+    "minutes": "minutes",
+    "hours": "hours",
+    "Connected": "Connected",
+    "Today": "Today",
+    "intro": "intro",
+    "Mind Asset Account ID": "Mind Asset Account ID",
+    "input account ID to receive payment": "input account ID to receive payment",
+    "Contact Alias": "Contact Alias",
+    "tag-en": "tag-en",
+    "tag-zh": "tag-zh",
+    "Name": "Name",
+    "Peer:": "Peer:",
+    "Verify": "Verify",
+    "update success": "update success",
+    "update failed": "update failed",
+    "BrowseFile": "BrowseFile",
+    "clear success": "clear success",
+    "clear failed": "clear failed",
+    "nothing to update": "nothing to update",
+    "lock time is too short": "lock time is too short",
+    "lock value is too small": "lock value is too small",
+    "wrong idfrom": "wrong idfrom",
+    "no private key": "no private key",
+    "Transaction amounts must be positive": "Transaction amounts must be positive",
+    "output amount too small": "output amount too small",
+    "Insufficient available funds": "Insufficient available funds",
+    "Transaction too large": "Transaction too large",
+    "params less than 3": "params less than 3",
+    "user cancelled": "user cancelled",
+    "wrong id": "wrong id",
+    "tx not found": "tx not found",
+    "Can't resign": "Can't resign",
+    "No small unspent,please split and try again": "No small unspent,please split and try again",
+    "wrong password": "wrong password",
+    "tx already confirmed": "tx already confirmed",
+    "sign transaction failed": "sign transaction failed",
+    "tx rejected": "tx rejected",
+    "encryption failed": "encryption failed",
+    "Private key not available": "Private key not available",
+    "Sign failed": "Sign failed",
+    "page is blocked by user": "page is blocked by user",
+    "invalid signatures": "invalid signatures",
+    "signatures number not enough": "signatures number not enough",
+    "Dev": "Dev",
+    "content": "content",
+    "Intro: ": "Intro: ",
+    "wallet": "wallet",
+    "settings": "settings",
+    "service": "service",
+    "tools": "tools",
+    "help": "help",
+    "Help": "Help",
+    "MindAsset Help": "MindAsset Help",
+    "ON": "ON",
+    "OFF": "OFF",
+    "Item": "Item",
+    "Onchain": "Onchain",
+    "Failed to send tx: ": "Failed to send tx: ",
+    "recepient amount not set": "recepient amount not set",
+    "recepient account id empty": "recepient account id empty",
+    "out id is not valid format": "out id is not valid format",
+    "recepient amount less than zero": "recepient amount less than zero",
+    "recepient amount is not number": "recepient amount is not number",
+    "Successfully change alias to ": "Successfully change alias to ",
+    "Instruction:": "Instruction:",
+    "Copy message": "Copy message",
+    "user canceled": "user canceled",
+    "Lock for:": "Lock for:",
+    "Time: ": "Time: ",
+    "Height :": "Height :",
+    "Inputs:": "Inputs:",
+    "Outputs:": "Outputs:",
+    " unlock in: ": " unlock in: ",
+    "Coinbase: ": "Coinbase: ",
+    "Publish Content": "Publish Content",
+    "txid: ": "txid: ",
+    "Add node failed": "Add node failed",
+    "Add node success": "Add node success",
+    "send-message-error: ": "send-message-error: ",
+    "MindAsset Developers": "MindAsset Developers",
+    "Quantity less than 1": "Quantity less than 1",
+    "invalid idforeign": "invalid idforeign",
+    "No address": "No address",
+    "can't mine while chain is not up to date": "can't mine while chain is not up to date",
+    "Under construction": "Under construction",
+    "Override failed": "Override failed",
+    "Posted: ": "Posted: ",
+    "Lock until:": "Lock until:",
+    "Mind Asset - Help": "Mind Asset - Help",
+    "Mind Asset - Introduction": "Mind Asset - Introduction",
+    "Link is invalid": "Link is invalid",
+    "Download newest version": "Download newest version",
+    "Mind Asset": "Mind Asset",
+    "Mind Stone": "Mind Stone",
+    "Raw Stone": "Raw Stone",
+    "Tx Type": "Tx Type",
+    "Type:": "Type:",
+    "Stain": "Stain",
+    "staining": "staining",
+    "Please choose Mind Asset type": "Please choose Mind Asset type",
+    "Balance Available:": "Balance Available:",
+    "Start Staining": "Start Staining",
+    "Time Deposit": "Time Deposit",
+    "Time(days)：": "Time(days)：",
+    "Enter The time to deposit ": "Enter The time to deposit ",
+    "Interest Rate:": "Interest Rate:",
+    "Lock time lower than minimum requirement": "Lock time lower than minimum requirement",
+    "POS Interest Rate": "POS Interest Rate",
+    "Year": "Year",
+    "Enter The Amount of Mind Assets to stain": "Enter The Amount of Mind Assets to stain",
+    "Enter The Amount of Mind Asset to deposit": "Enter The Amount of Mind Asset to deposit",
+    "Confirm Deposit": "Confirm Deposit",
+    "Your deposit is successfully sent": "Your deposit is successfully sent",
+    "Your staining transaction is successfully sent": "Your staining transaction is successfully sent",
+    "Failed to send deposit tx: ": "Failed to send deposit tx: ",
+    "deposit": "deposit",
+    "Mind Sign": "Mind Sign",
+    "Config": "Config",
+    "Sign message": "Sign message",
+    "Validate message": "Validate message",
+    "Validate fail": "Validate fail",
+    "Validate success": "Validate success",
+    "Invalid address": "Invalid address"
+    ,"Your Mind Bank Account Address":"Your Mind Bank Account Address"
+    ,"Mind Gene":"Mind Gene"
+    ,"Award status":"Award status"
+    ,"Trust Interest Schedule this Century":"Trust Interest Schedule this Century"
+    ,"Total Trust Interest Schedule":"Total Trust Interest Schedule"
+    ,"This Week":"This Week"
+    ,"This Month":"This Month"
+    ,"Last Month":"Last Month"
+    ,"This Year":"This Year"
+    ,"Input the address to search":"Input the address to search"
+    ,"Minimum Amount":"Minimum Amount"
+    ,"Input a label for this address to add to your address book":"Input a label for this address to add to your address book"
+    ,"label":"label"
+    ,"Commission Charge":"Commission Charge"
+    ,"Confirmation Time":"Confirmation Time"
+    ,"Common":"Common"
+    ,"Rapid":"Rapid"
+    ,"Add Recipient":"Add Recipient"
+    ,"Clear All":"Clear All"
+    ,"These are your MG address for collection":"These are your MG address for collection"
+    ,"Copy Address":"Copy Address"
+    ,"QR Code":"QR Code"
+    ,"Sign for the information":"Sign for the information"
+    ,"New Address":"New Address"
+    ,"Trust Interest":"Trust Interest"
+    ,"Snap save":"Taken"
+    ,"Current stage":"Current stage"
+    ,"Total Interest":"Total Interest:"
+    ,"Trust Interest Total Amount Surplus":"Trust Interest Total Amount Surplus:"
+    ,"Surplus Amount":"Available Interest:"
+    ,"Highest Rate in next stage for hundred days":"Highest Rate in next stage for hundred days:"
+    ,"Total Amount in next stage":"Total Amount in next stage:"
+    ,"My Total Amount":"My Total Amount(MG)"
+    ,"Available Balance":"Available Balance:"
+    ,"My Interest":"My Interest:"
+    ,"Choose MG lifetime":"Choose MG lifetime"
+    ,"Interest rate for hundred days":"Interest rate for hundred days"
+    ,"Input limit":"Input limit(MG)"
+    ,"Obtain the Interest Award":"Obtain the Interest Award"
+    ,"Snap save now":"Snap save now"
+    ,"Historic Records":"Historic Records"
+    ,"Remaining MG lifetime":"Remaining MG lifetime(days)"
+    ,"Rate for hundred days":"Rate for hundred days"
+    ,"Actual Input(MG)":"Actual Input(MG)"
+    ,"Obtain Award (MG)":"Obtain Award (MG)"
+    ,"Charity Donation is coming":"Charity Donation is coming"
+    ,"Charity Donation will be published in next edition":"Charity Donation will be published in next edition"
+    ,"Public Benefit":"Public Benefit"
+    ,"Public Benefit Donation":"Public Benefit Donation"
+    ,"Public Benefit Vote":"Public Benefit Vote"
+    ,"Continue to Vote":"Continue to Vote"
+    ,"Donation Amount":"Donation Amount"
+    ,"Choose automatically":"Choose automatically"
+    ,"Manual Operation":"Manual Operation"
+    ,"Autograph":"Autograph"
+    ,"Please input your name":"Please input your name"
+    ,"Leave a message":"Leave a message"
+    ,"Please input the message which will stay in Block chain forever":"Please enter your donation message, write your message to the global public welfare undertakings.Your message will be permanently retained in block chain, as a witness of your contribution to the global public welfare undertakings."
+    ,"Thanks for your donation to the global public welfare":"Thanks for your donation to the global public welfare"
+    ,"Let us share the fortune of love and wisdom in transparent, fair and balance block chain ecology":"Let us share the fortune of love and wisdom in transparent, fair and balance block chain ecology"
+    ,"Global Public Benefit":"Global Public Benefit"
+    ,"Vote Result":"Vote Result"
+    ,"Your Available votes":"Your Available votes:"
+    ,"Prompted Charity Organization list":"Prompted Charity Organization list"
+    ,"Organization Name":"Organization Name"
+    ,"MG Address":"MG Address"
+    ,"Operation":"Operation"
+    ,"Please Input the votes":"Please Input the votes"
+    ,"Overview":"Overview"
+    ,"Trade Record":"Trade Record"
+    ,"Signature-sign for information/Signature Information Verification":"Signature-sign for information/Signature Information Verification"
+    ,"Signature Information":"Signature Information"
+    ,"Verification Information":"Verification Information"
+    ,"Mind Bank Address":"Mind Bank Address"
+    ,"This is the Mind Bank Address for sending payment":"This is the Mind Bank Address for sending payment"
+    ,"Mainkind Love Conversion System":"Mainkind Love Conversion System"
+    ,"Public benefit vote will publish in next version, coming soon":"Public benefit vote will publish in next version, coming soon"
+    ,"Public benefit vote century grand prix is upcoming":"Public benefit vote century grand prix is upcoming"
+    ,"Please input an MG address, like MmqeEGhVKCxEQ7HbLpJJNy8XdMkmuY7KnP":"Please input an MG address, like MmqeEGhVKCxEQ7HbLpJJNy8XdMkmuY7KnP"
+    ,"Click Sign Message to generate the signature":"Click Sign Message to generate the signature"
+    ,"Input signature address, information":"Input signature address, information"
+    ,"Input the Signature":"Input the Signature"
+    ,"You may sign the information by your address to prove that you are the owner of the address":"You may sign the information by your address to prove that you are the owner of the address"
+    ,"Choose the Receipt Address":"Choose the Receipt Address"
+    ,"Confirm":"Confirm"
+    ,"Choose Payment Address":"Choose Payment Address"
+    ,"Payment Request":"Payment Request"
+    ,"New Recieve Address":"New Recieve Address"
+    ,"Mutlti Deal:":"Mutlti Deal:"
+    ,"Please unlock your account first":"Please unlock your account first"
+    ,"Deal Detail":"Deal Detail"
+    ,"Coin age rewards": "Coin age rewards"
+    ,"The current one hundred day return": "Current Interest Rate Of 100 Days"
+    ,"Expected yield": "Expected yield"
+    ,"Accumulated income": "Accumulated income"
+    ,"Start receive": "Start receive"
+    ,"The public vote": "The public vote"
+    ,"Join the vote has a chance to get the award": "Join the vote has a chance to get the award"
+    ,"Reward address number": "Reward address number"
+    ,"Award Amount": "Award Amount"
+    ,"The winning probability": "The winning probability"
+    ,"The progress of this century": "The progress of this century"
+    ,"Vote": "Vote"
+    ,"Available Revenue List": "Available Revenue List"
+    ,"No Available Revenue": "No Available Revenue"
+    ,"Blocks": "Blocks"
+    ,"Votes": "Votes"
+    ,"Approximately": "Approximately"
+    ,"Confirm Vote": "Confirm Vote"
+    ,"Ranking": "Ranking"
+    ,"Proportional Voting": "Proportional Voting"
+    ,"The winning announcement": "The winning announcement"
+    ,"The public vote Lottery century awards announcement": "The public vote Lottery century awards announcement"
+    ,"The winning century:": "The winning century:"
+    ,"No.": "No."
+    ,"Century": "Century"
+    ,"The winning amount of this century:": "The winning amount of this century:"
+    ,"Winning mind bank address": "Winning mind bank address"
+    ,"Voting is not over of the century, no announcement": "Voting is not over of the century, no announcement"
+    ,"Before the vote cut-off": "Before the vote cut-off"
+    ,"Interest Of This Century": "Interest Of This Century"
+    ,"You Can Use It To Vote": "Vote to participate in public welfare lottery to win"
+    ,"Go To Vote": "Go To Vote"
+    ,"Century Awards": "Century Awards"
+    ,"Expected Interest": "Expected Interest"
+    ,"Vote Confirm": "Vote Confirm"
+    ,"Whether to confirm to vote": "Whether to confirm to vote"
+    ,"The deal won’t gain the coin age award after joining the public vote lottery, and the vote can’t be canceled.": "The deal won’t gain the coin age award after joining the public vote lottery, and the vote can’t be canceled."
+    ,"Draw Interest Confirm": "Draw Interest Confirm"
+    ,"Whether to confirm to gain the interest": "Whether to confirm to gain the interest"
+    ,"The deal can’t join the public vote lottery after getting the interest.": "The deal can’t join the public vote lottery after getting the interest."
+    ,"Announcement": "Announcement"
+    ,"Donation": "Donation"
+    ,"Coin Rewards": "Coin Rewards"
+    ,"Public Vote": "Vote"
+    ,"Donation Confirm": "Donation Confirm"
+    ,"Vote successfully": "Vote successfully"
+    ,"Failed to vote:": "Failed to vote:"
+    ,"balance unenough": "Balance unenough"
+    ,"Donate successfully": "Donate successfully"
+    ,"Failed to donate:": "Failed to donate:"
+    ,"Institutional choice": "Institutional choice"
+    ,"About": "About"
+    ,"Left": "Left"
+    ,"Donation Amount": "Donation Amount"
+    ,"Sign": "Sign"
+    ,"Failed to draw:": "Failed to draw:"
+    ,"Please choose cheques": "Please choose cheques"
+    ,"Draw Interest": "Draw Interest"
+    ,"Drawing": "Drawing"
+    ,"Donation not begin": "Now voting this century public institutions still continue, until the end of the century vote ranking results to determine. The default the highest number of votes of institutions in order to confirm, please publish the ranking results after come back donation, thank you for your contribution and support to the global public utilities"
+    ,"Introduction": "Introduction"
+    ,"Donation Rule": "To be chosen for voting, public welfare institutions share the donation, the first century will choose a charity.The second century will choose two charity, By analogy, Choose 100 charity until to complete, Every century, according to the number of agencies to get votes change."
+    ,"Awards Notice": "Awards Notice"
+    ,"Vote Tip One": "1.In the same transaction, the money age bonus is not to be participated in same time, so you can choose one to attend according to your personal policy."
+    ,"Vote Tip Two": "2.Vote reward for the system random draw, you will get a high reward, it is winning probability according to the current number of participating voters to produce a corresponding number of floating"
+    ,"Vote Tip Three": "3.Voting sweepstakes period about 100 days, voting ends will be randomly selected 100 addresses,Get to the century award, lottery results will be in lottery announcement query."
+    ,"cheque already spent": "cheque already spent"
+    ,"Draw successfully": "Draw successfully"
+    ,"vin is empty": "Please choose cheques"
+    ,"Have no vote result": "The vote will be released at the end of this century"
+    ,"all": "All"
+    ,"receive": "Receive"
+    ,"send": "Send"
+    ,"toSelf": "toSelf"
+    ,"pos": "Pos"
+    ,"deposit": "Deposit"
+    ,"staining": "Staining"
+    ,"minted": "Century Award"
+    ,"other": "Other"
+    ,"depunconfirmed": "Unconfirmed"
+    ,"depreleased": "dReleased"
+    ,"deplocked": "Locked"
+    ,"Signname": "Sign"
+}
